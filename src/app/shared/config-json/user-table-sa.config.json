@@ -1,0 +1,218 @@
+{
+  "Caption": "Users",
+  "Header": {
+    "showColumnToggle": true,
+    "showSearch": true,
+    "showAdd": true,
+    "addTooltipText": "Add Account",
+    "showReset": false,
+    "showDownload": false,
+    "showClose": false
+  },
+  "Pagination": true,
+  "PageSizeChanger": false,
+  "PaginationType": "Dynamic",
+  "SortingType": "Static",
+  "SearchType": "Static",
+  "selectedRowClassName": "selected-row",
+  "noDataLabel": "No Data Found",
+  "ScrollConfig": { "x": "auto" },
+  "Columns": [
+    {
+      "name": "#ID",
+      "dataType": "text",
+      "property": "sr_no",
+      "visible": true,
+      "searchable": true,
+      "searchValue": null,
+      "sortable": true,
+      "sortOrder": "",
+      "SearchFormTemplate": null,
+      "advanceFilter": {
+        "dataType": "text",
+        "dpConfig": null,
+        "dprConfig": null,
+        "textMask": null,
+        "placeholder": "",
+        "searchQuery": null
+      }
+    },
+    {
+      "name": "License Key",
+      "dataType": "text",
+      "property": "id",
+      "visible": true,
+      "searchable": true,
+      "searchValue": null,
+      "sortable": true,
+      "sortOrder": "",
+      "SearchFormTemplate": null,
+      "Width": "180px",
+      "advanceFilter": {
+        "dataType": "text",
+        "dpConfig": null,
+        "dprConfig": null,
+        "textMask": null,
+        "placeholder": "",
+        "searchQuery": null
+      }
+    },
+    {
+      "name": "First Name",
+      "dataType": "text",
+      "property": "reseller_firstname",
+      "compare": "",
+      "visible": true,
+      "searchable": true,
+      "searchValue": null,
+      "sortable": true,
+      "sortOrder": "",
+      "SearchFormTemplate": null,
+      "advanceFilter": {
+        "dataType": "text",
+        "dpConfig": null,
+        "dprConfig": null,
+        "textMask": null,
+        "placeholder": "",
+        "searchQuery": null
+      },
+      "Width": "10px"
+    },
+    {
+      "name": "Email Address",
+      "dataType": "text",
+      "property": "email",
+      "visible": true,
+      "searchable": true,
+      "searchValue": null,
+      "sortable": true,
+      "sortOrder": "",
+      "SearchFormTemplate": null,
+      "advanceFilter": {
+        "dataType": "text",
+        "dpConfig": null,
+        "dprConfig": null,
+        "textMask": null,
+        "placeholder": "",
+        "searchQuery": null
+      }
+    },
+    {
+      "name": "Company Name",
+      "dataType": "text",
+      "property": "companyname",
+      "visible": true,
+      "searchable": true,
+      "searchValue": null,
+      "sortable": true,
+      "sortOrder": "",
+      "Width": "170px",
+      "SearchFormTemplate": null,
+      "advanceFilter": {
+        "dataType": "date_range",
+        "dpConfig": null,
+        "dprConfig": null,
+        "textMask": null,
+        "placeholder": "",
+        "searchQuery": null
+      }
+    },
+    {
+      "name": "Country",
+      "dataType": "text",
+      "property": "country",
+      "visible": true,
+      "searchable": true,
+      "searchValue": null,
+      "sortable": true,
+      "sortOrder": "",
+      "SearchFormTemplate": null,
+      "advanceFilter": {
+        "dataType": "date_range",
+        "dpConfig": null,
+        "dprConfig": null,
+        "textMask": null,
+        "placeholder": "",
+        "searchQuery": null
+      }
+    },
+    {
+      "name": "Credits",
+      "dataType": "text",
+      "property": "credits",
+      "visible": true,
+      "searchable": true,
+      "searchValue": null,
+      "sortable": true,
+      "sortOrder": "",
+      "SearchFormTemplate": null,
+      "advanceFilter": {
+        "dataType": "number",
+        "dpConfig": null,
+        "dprConfig": null,
+        "textMask": null,
+        "placeholder": "",
+        "searchQuery": null
+      }
+    },
+    {
+      "name": "Created",
+      "dataType": "text",
+      "property": "created_at",
+      "visible": true,
+      "searchable": false,
+      "searchValue": null,
+      "sortable": true,
+      "sortOrder": "",
+      "SearchFormTemplate": null,
+      "advanceFilter": {
+        "dataType": "date_range",
+        "dpConfig": null,
+        "dprConfig": null,
+        "textMask": null,
+        "placeholder": "",
+        "searchQuery": null
+      }
+    },
+    {
+      "name": "Created By",
+      "dataType": "text",
+      "property": "created_by_id",
+      "visible": true,
+      "searchable": true,
+      "searchValue": null,
+      "sortable": true,
+      "sortOrder": "",
+      "SearchFormTemplate": null,
+      "Width": "120px",
+      "advanceFilter": {
+        "dataType": "text",
+        "dropdownItems": [],
+        "dpConfig": null,
+        "dprConfig": null,
+        "textMask": null,
+        "placeholder": "",
+        "searchQuery": null
+      }
+    },
+    {
+      "name": "Status",
+      "dataType": "text",
+      "property": "emailverified",
+      "visible": true,
+      "searchable": true,
+      "searchValue": null,
+      "sortable": true,
+      "sortOrder": "",
+      "SearchFormTemplate": null
+    },
+    {
+      "name": "Actions",
+      "property": "actions",
+      "visible": true,
+      "searchable": false,
+      "sortable": false,
+      "actionTemplate": null
+    }
+  ]
+}

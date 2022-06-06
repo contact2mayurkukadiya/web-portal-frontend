@@ -1,0 +1,176 @@
+<ng-container *ngIf="adminTableJSON">
+  <app-table (onRowClick)="handleAdminRowClick($event)" [Config]="adminTableJSON" [Data]="adminList"
+    (header_addClick)="openModal(temp, 'add', '')" [TotalItems]="totalData" [PageSize]="PageSize"
+    (sortTableColumn)="sortAdminTable($event)" (header_searchClick)="search($event)" (pageIndex)="indexChanged($event)"
+    [loading]="loading">
+  </app-table>
+</ng-container>
+
+<div *ngIf="isSubAdminVisible" style="margin: 25px 0 0 0">
+  <app-sub-admin [selectedAdminId]="selectedAdminIdForSubAdmin"
+    (onViewAccountOption)="handleAccounts({ id: $event['id'] })" (close)="isSubAdminVisible = false"></app-sub-admin>
+</div>
+
+<div *ngIf="isAccountsVisible" style="margin: 25px 0 0 0">
+  <app-user [selectedAdminId]="selectedAdminIdForAccounts" (close)="isAccountsVisible = false"></app-user>
+</div>
+
+<ng-template #actionTemplate let-column="column" let-row="row" let-rowIndex="rowIndex" let-columnIndex="columnIndex">
+  <div style="position: relative" class="text-center">
+
+    <button type="button" nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="actionMenu"
+      nzPlacement="bottomRight" style="cursor: pointer" (click)="$event.stopPropagation()">
+      <i nz-icon nzType="ellipsis"></i>
+    </button>
+
+    <nz-dropdown-menu #actionMenu="nzDropdownMenu">
+      <ul nz-menu class="wi-action-menu">
+        <!-- <li nz-menu-item role="menuitem">
+          <a class="dropdown-item" (click)="handleSubAdmin(row)">Sub admins</a>
+        </li> -->
+        <li nz-menu-item role="menuitem">
+          <a class="dropdown-item" (click)="openModal(temp, 'edit', row)">Edit</a>
+        </li>
+        <li nz-menu-item role="menuitem">
+          <a class="dropdown-item" (click)="showDeleteConfirm(row.id)">Delete</a>
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+  </div>
+</ng-template>
+
+<ng-template #statusTemplate let-column="column" let-row="row" let-rowIndex="rowIndex" let-columnIndex="columnIndex">
+  <!-- <nz-tag *ngIf="row[column.property] == 0" [nzColor]="'#E23E31'">Inactive</nz-tag>
+  <nz-tag *ngIf="row[column.property] == 1" [nzColor]="'#4AAC4E'">Active</nz-tag> -->
+  <nz-switch nzSize="small" [ngModel]="row[column.property]"
+    (ngModelChange)="statusChanged($event,row,column.property)">
+  </nz-switch>
+</ng-template>
+
+<ng-template #temp>
+  <form nz-form nzLayout="vertical" id="addAdminForm" [formGroup]="adminForm" (keydown.enter)="createAdmin()"
+    autocomplete="off">
+    <div nz-row style="margin-bottom: 0.50rem;">
+      <div nz-col nzSpan="24">
+        <h3>Admin Details</h3>
+      </div>
+    </div>
+    <div nz-row [nzGutter]="32">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>First Name</nz-form-label>
+          <nz-form-control nzErrorTip="Enter a valid first name">
+            <input nz-input trim="blur" formControlName="firstname" maxlength="80" #firstname
+              placeholder="Enter First Name" tabindex="11" />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label>Company</nz-form-label>
+          <nz-form-control nzErrorTip="Enter a valid Company">
+            <input nz-input trim="blur" formControlName="company" maxlength="80" #company
+              placeholder="Enter Company Name" tabindex="13" />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label>State</nz-form-label>
+          <nz-form-control nzErrorTip="Enter a valid State">
+            <input nz-input trim="blur" formControlName="state" maxlength="80" #state placeholder="Enter State"
+              tabindex="15" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Last Name</nz-form-label>
+          <nz-form-control nzErrorTip="Enter a valid last name">
+            <input nz-input trim="blur" formControlName="lastname" maxlength="80" #lastname
+              placeholder="Enter Last Name" tabindex="12" />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label>Street</nz-form-label>
+          <nz-form-control nzErrorTip="Enter a valid Street">
+            <input nz-input trim="blur" formControlName="street" maxlength="80" #street placeholder="Enter Street"
+              tabindex="14" />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label>Postcode</nz-form-label>
+          <nz-form-control nzErrorTip="Enter a valid Postcode">
+            <input nz-input trim="blur" formControlName="postcode" maxlength="80" #code placeholder="Enter Postcode"
+              tabindex="16" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row [nzGutter]="32">
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>Email</nz-form-label>
+          <nz-form-control nzErrorTip="Enter a valid Email">
+            <input nz-input trim="blur" formControlName="_default_email" maxlength="80" #email
+              placeholder="Enter Email Address" tabindex="17" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item *ngIf="mode == 'add'">
+          <nz-form-label nzFor="newPassword" class="text-black">Password
+          </nz-form-label>
+          <nz-form-control [nzErrorTip]="newPasswordRef">
+            <nz-input-group [nzPrefix]="prefixLock">
+              <input id="myinputbox" type="password" nz-input formControlName="password"
+                placeholder="Enter new password" autofocus name="adminPwd" autocomplete="new-password" #adminPwd />
+            </nz-input-group>
+            <ng-template #newPasswordRef>
+              Enter a valid Password
+              <i class="fa fa-info-circle float-right pt-1" nzPopoverPlacement="bottom" nz-popover nzType="primary"
+                nzPopoverTitle="Password Criteria" [nzPopoverContent]="popoverContent"></i>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item *ngIf="mode == 'edit'">
+          <nz-form-label nzFor="newPassword" class="text-black">Change Password
+          </nz-form-label>
+          <nz-form-control [nzErrorTip]="newPasswordRef">
+            <nz-input-group [nzPrefix]="prefixLock">
+              <input id="myinputbox" type="password" nz-input formControlName="password"
+                placeholder="Enter changed password" autofocus name="adminPwd" autocomplete="new-password" #adminPwd />
+            </nz-input-group>
+            <ng-template #newPasswordRef>
+              Enter a valid Password
+              <i class="fa fa-info-circle float-right pt-1" nzPopoverPlacement="bottom" nz-popover nzType="primary"
+                nzPopoverTitle="Password Criteria" [nzPopoverContent]="popoverContent"></i>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label nzFor="confirmPassword" class="text-black">Re-enter password
+          </nz-form-label>
+          <nz-form-control
+            [nzErrorTip]="matchPasswordErr ? 'Passwords must match' : 'Enter a valid Confirmed Password'">
+            <nz-input-group [nzPrefix]="prefixLock">
+              <input #Pwd id="myinputbox" type="password" nz-input formControlName="confirmPassword"
+                (input)="matchPassword()"
+                [placeholder]="mode == 'add' ? 'Re-enter new password' : 'Re-enter changed password'">
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  </form>
+</ng-template>
+<ng-template #prefixLock><i nz-icon nzType="lock"></i></ng-template>
+
+<ng-template #popoverContent>
+  <ul class="p-l-20">
+    <li>Alpahnumeric and at least 8 characters long <br /></li>
+    <li>At least one uppercase letter <br /></li>
+    <li>
+      At least one of these characters ( @ / # / $ / % / ^ / & / + / = )<br />
+    </li>
+    <li>Must not contain spaces</li>
+  </ul>
+</ng-template>

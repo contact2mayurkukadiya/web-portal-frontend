@@ -1,0 +1,105 @@
+<div class="caption">
+    <label>Profile</label>
+</div>
+<div class="m-20">
+    <form nz-form nzLayout="vertical" id="addUserForm" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+        <ng-container>
+            <!-- *ngIf="current_user_details.role !== subAdminRole" -->
+            <div nz-row style="margin-bottom: 0.50rem;">
+                <div nz-col nzSpan="24">
+                    <h3>End User Details</h3>
+                </div>
+            </div>
+            <div nz-row [nzGutter]="32">
+                <div nz-col nzSpan="12">
+                    <nz-form-item>
+                        <nz-form-label>First Name</nz-form-label>
+                        <nz-form-control nzErrorTip="Enter a valid first name">
+                            <input nz-input trim="blur" formControlName="firstname" maxlength="80" #firstname
+                                placeholder="Enter First Name" tabindex="11" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label>Company</nz-form-label>
+                        <nz-form-control nzErrorTip="Enter a valid Company">
+                            <input nz-input trim="blur" formControlName="company" maxlength="80" #company
+                                placeholder="Enter Company Name" tabindex="13" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label>State</nz-form-label>
+                        <nz-form-control nzErrorTip="Enter a valid State">
+                            <input nz-input trim="blur" formControlName="state" maxlength="80" #state
+                                placeholder="Enter State" tabindex="15" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-col nzSpan="12">
+                    <nz-form-item>
+                        <nz-form-label>Last Name</nz-form-label>
+                        <nz-form-control nzErrorTip="Enter a valid last name">
+                            <input nz-input trim="blur" formControlName="lastname" maxlength="80" #lastname
+                                placeholder="Enter Last Name" tabindex="12" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label>Street</nz-form-label>
+                        <nz-form-control nzErrorTip="Enter a valid Street">
+                            <input nz-input trim="blur" formControlName="street" maxlength="80" #street
+                                placeholder="Enter Street" tabindex="14" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label>Postcode</nz-form-label>
+                        <nz-form-control nzErrorTip="Enter a valid Postcode">
+                            <input nz-input trim="blur" formControlName="postcode" maxlength="80" #code
+                                placeholder="Enter Postcode" tabindex="16" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+        </ng-container>
+        <div nz-row style="margin-bottom: 0.50rem;">
+            <div nz-col nzSpan="24">
+                <h3>Password Settings</h3>
+            </div>
+        </div>
+        <nz-form-item>
+            <nz-form-label nzFor="newPassword" class="text-black">Old Password
+            </nz-form-label>
+            <nz-form-control>
+                <nz-input-group [nzPrefix]="prefixLock" class="w-50">
+                    <input id="myinputbox" type="password" nz-input formControlName="old_password"
+                        (input)="addPwdValidator()" placeholder="Enter old password" autofocus name="adminPwd"
+                        autocomplete="new-password" #adminPwd />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzFor="newPassword" class="text-black">Change Password
+            </nz-form-label>
+            <nz-form-control>
+                <nz-input-group [nzPrefix]="prefixLock" class="w-50">
+                    <input id="myinputbox" type="password" nz-input formControlName="password"
+                        placeholder="Enter new password" autofocus name="adminPwd" autocomplete="new-password"
+                        #adminPwd />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzFor="confirmPassword" class="text-black">Confirm password
+            </nz-form-label>
+            <nz-form-control
+                [nzErrorTip]="matchPasswordErr ? 'Passwords must match' : 'Enter a valid Confirmed Password'">
+                <nz-input-group [nzPrefix]="prefixLock" class="w-50">
+                    <input #Pwd id="myinputbox" type="password" nz-input formControlName="confirmPassword"
+                        (input)="matchPassword()" placeholder="Re-enter new password" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+    <ng-template #prefixLock><i nz-icon nzType="lock"></i></ng-template>
+    <div id="footer">
+        <button nz-button nzType="primary" *ngIf="profileForm.touched" (click)="updateAccountDetails()">Update</button>
+    </div>
+</div>

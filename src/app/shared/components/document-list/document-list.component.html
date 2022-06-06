@@ -1,0 +1,48 @@
+<nz-table #documentTable [nzData]="docList" [nzShowPagination]="false">
+  <thead>
+    <tr>
+      <th>Document Name</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of documentTable.data">
+      <td>{{ data.document_name }}</td>
+      <td>
+        <span style="padding-right: 8px;" class="cursor-pointer" (click)="editDocument(data)" *ngIf="!old_id">
+          <i nz-icon nzType="edit" nzTheme="outline" style="color: #FF9842;"></i>
+        </span>
+        <span style="padding-right: 8px;" class="cursor-pointer" (click)="cancelChanges()" *ngIf="data.id == old_id">
+          <i nz-icon nzType="close-circle" nzTheme="outline" style="color: #FF9842;"></i>
+        </span>
+        <span style="padding-left: 8px; padding-right: 8px;" class="cursor-pointer" (click)="showDeleteConfirm(data.id)"
+          *ngIf="!old_id">
+          <i nz-icon nzType="delete" nzTheme="outline" style="color: #FF9842;"></i>
+        </span>
+        <span style="padding-left: 8px;" class="cursor-pointer" (click)="downloadFile(data.id)">
+          <i nz-icon nzType="download" nzTheme="outline" style="color: #FF9842;"></i>
+        </span>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+<div class="ant-upload ant-upload-drag custom-file-uploader drag-file-uploader" (click)="openFileBrowser('POSelector')"
+  style="margin: 15px 0;">
+  <input type="file" style="display: none;" (change)="handleChange($event)" id="POSelector">
+  <p class="ant-upload-drag-icon font-size-30 m-b-10 lh-1">
+    <i nz-icon nzType="inbox"></i>
+  </p>
+  <p class="ant-upload-text m-b-0">Click to this area to upload</p>
+  <p class="ant-upload-hint m-b-0" *ngIf="!documentForm.get('file').value">
+    Support for a single PDF file
+  </p>
+  <p class="ant-upload-hint m-b-0 text-truncate w-100 p-l-10 p-r-10 text-center"
+    *ngIf="documentForm.get('file').value && documentForm.get('file').value['name']"
+    (click)="$event.stopPropagation();">
+    {{documentForm.get('file').value['name']}}
+  </p>
+</div>
+<div *nzModalFooter>
+  <button nz-button nzType="default" (click)="onClose()">Cancel</button>
+  <button nz-button nzType="primary" (click)="saveChanges()" [nzLoading]="isConfirmLoading">Save</button>
+</div>

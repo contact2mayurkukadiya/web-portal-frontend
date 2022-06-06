@@ -1,0 +1,87 @@
+<div class="wic-table-header">
+  <div class="wic-table-caption">
+    <label>{{ Caption }}</label>
+  </div>
+
+  <div class="wic-button-container">
+    <!-- <div dropdown *ngIf="Header?.showColumnToggle">
+      <button nz-button nz-dropdown nzClickHide="false" nzTrigger="click" [nzDropdownMenu]="menu" nz-tooltip
+        nzTooltipTitle="Show/Hide Columns" nzType="dashed" class="wic-table-header-button" type="button">
+        <i nz-icon nzType="bars" nzTheme="outline"></i>
+        <span class="icon-margin">Columns</span>
+      </button>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+          <ng-container *ngFor="let column of Columns; let i = index">
+            <li nz-menu-item *ngIf="column.canNotHide === undefined || column.canNotHide == false">
+              <a [ngClass]="{'active': column.visible == false }" (click)="toggleColumn(i)">
+                {{column.name }}
+              </a>
+            </li>
+          </ng-container>
+        </ul>
+      </nz-dropdown-menu>
+    </div> -->
+
+    <!-- Extra Custom Tempaltes that will Visible Here -->
+    <ng-container *ngIf="ExtraButtons">
+      <ng-container *ngTemplateOutlet="ExtraButtons; context: ExtraButtonContext"></ng-container>
+    </ng-container>
+
+    <!-- Search Button -->
+    <ng-container *ngIf="Header?.showSearch">
+      <div class="search-container">
+        <input nz-input type="text" name="search" trim="blur" [(ngModel)]="searchedValue" placeholder="Search..."
+          #searchInput class="search-input" (ngModelChange)="search()" />
+        <button nz-button nz-tooltip nzTooltipTitle="Search" nzType="dashed" nzShape="circle"
+          class="wic-table-header-button" (click)="search()">
+          <span class="btn-wrapper--icon">
+            <i nz-icon nzType="search" nzTheme="outline"></i>
+          </span>
+        </button>
+      </div>
+    </ng-container>
+
+    <!-- Add Button -->
+    <button nz-button nzType="dashed" nzShape="circle" nz-tooltip [nzTooltipTitle]="Header?.addTooltipText"
+      class="wic-table-header-button" (click)="add()" *ngIf="Header?.showAdd" [disabled]="Header?.showAddDisabled">
+      <span class="btn-wrapper--icon">
+        <i nz-icon nzType="plus" nzTheme="outline"></i>
+      </span>
+    </button>
+
+    <!-- Reset Button -->
+    <button nz-button nzType="dashed" nzShape="circle" nz-tooltip [nzTooltipTitle]="Header?.resetTooltipText"
+      (click)="reset()" class="wic-table-header-button" *ngIf="Header?.showReset">
+      <span class="btn-wrapper--icon">
+        <i nz-icon nzType="sync" nzTheme="outline"></i>
+      </span>
+    </button>
+
+    <!-- Upload Button -->
+    <button nz-button nzType="dashed" nzShape="circle" nz-tooltip
+      [nzTooltipTitle]="Header?.uploadTooltipText || 'Upload' " class="wic-table-header-button" (click)="upload()"
+      *ngIf="Header?.showUpload">
+      <span class="btn-wrapper--icon">
+        <i nz-icon nzType="upload" nzTheme="outline"></i>
+      </span>
+    </button>
+
+    <!-- Download Button -->
+    <button nz-button nzType="dashed" nzShape="circle" nz-tooltip
+      [nzTooltipTitle]="Header?.downloadTooltipText || 'Export'" class="wic-table-header-button" (click)="download()"
+      *ngIf="Header?.showDownload">
+      <span class="btn-wrapper--icon">
+        <i nz-icon nzType="download" nzTheme="outline"></i>
+      </span>
+    </button>
+
+    <!-- Close Button -->
+    <button nz-button nzType="dashed" nzShape="circle" nz-tooltip [nzTooltipTitle]="Header?.closeTooltipText || 'Close'"
+      *ngIf="Header?.showClose" (click)="close()" class="wic-table-header-button">
+      <span class="btn-wrapper--icon">
+        <i nz-icon nzType="close" nzTheme="outline"></i>
+      </span>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,70 @@
+<nz-table #documentTable [nzData]="deviceList" [nzShowPagination]="false">
+    <thead>
+        <tr>
+            <th nzWidth="210px">Licence Key</th>
+            <th nzWidth="180px">Product Key</th>
+            <th nzWidth="180px">Host Name</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of documentTable.data">
+            <td>
+                <ng-container *ngIf="!data.is_edit_mode">
+                    {{ data.licencekey }}
+                </ng-container>
+                <ng-container *ngIf="data.is_edit_mode">
+                    <input nz-input trim="blur" [(ngModel)]="licence_Key" #licenceKey class="key-input" />
+                </ng-container>
+            </td>
+            <td>
+                <ng-container>
+                    {{ data.productkey }}
+                </ng-container>
+                <!-- <ng-container *ngIf="data.is_edit_mode">
+                    <input nz-input trim="blur" [(ngModel)]="product_Key" #productKey class="key-input" />
+                </ng-container> -->
+            </td>
+            <td>
+                <ng-container>
+                    {{ data.hostname }}
+                </ng-container>
+                <!-- <ng-container *ngIf="data.is_edit_mode">
+                    <input nz-input trim="blur" [(ngModel)]="host_name" #licenceKey class="key-input" />
+                </ng-container> -->
+            </td>
+            <td>
+                <nz-switch *ngIf="data.is_edit_mode" nzSize="small" [(ngModel)]="updated_status">
+                </nz-switch>
+                <nz-tag *ngIf="!data.is_edit_mode" [nzColor]="data.status == 1 ? '#87d068' : '#f50'">{{data.status == 1
+                    ? 'Active'
+                    : 'Deactive'}}
+                </nz-tag>
+            </td>
+            <td>
+                <ng-container *ngIf="data.is_edit_mode">
+                    <span style="padding-right: 8px;" (click)="updateDevice(data)">
+                        <i nz-icon nzType="check-circle" nzTheme="outline" style="color: #87d068;"></i>
+                    </span>
+                    <span style="padding-left: 8px;" (click)="editStatus(data)">
+                        <i nz-icon nzType="close-circle" nzTheme="outline" style="color: #f50"></i>
+                    </span>
+                </ng-container>
+                <ng-container *ngIf="!data.is_edit_mode">
+                    <span style="padding-right: 8px;" (click)="editRow(data,true)">
+                        <i nz-icon nzType="edit" nzTheme="outline" style="color: #FF9842;"></i>
+                    </span>
+                    <span style="padding-left: 8px;" (click)="showDeleteConfirm(data.id)">
+                        <i nz-icon nzType="delete" nzTheme="outline" style="color: #FF9842;"></i>
+                    </span>
+                </ng-container>
+
+            </td>
+        </tr>
+    </tbody>
+</nz-table>
+<div *nzModalFooter>
+    <button nz-button nzType="default" (click)="onClose()">Cancel</button>
+    <!-- <button nz-button nzType="primary" (click)="saveChanges(deviceList)" [nzLoading]="isConfirmLoading">Save</button> -->
+</div>

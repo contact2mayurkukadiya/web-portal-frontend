@@ -1,0 +1,15 @@
+<div class="sidebar-logo">
+  <a target="_blank">
+    <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo" />
+    <h1>Portal</h1>
+  </a>
+</div>
+<ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed" style="background-color: #FBF3EB;">
+  <ul>
+    <ng-container *ngFor="let item of menuItems">
+      <li nz-menu-item [nzMatchRouter]="true" *ngIf="item.enablesIn.indexOf(currentUserDetails.role) > -1">
+        <a [routerLink]="item.path" style="color: black;"><b>{{ item.title }}</b></a>
+      </li>
+    </ng-container>
+  </ul>
+</ul>

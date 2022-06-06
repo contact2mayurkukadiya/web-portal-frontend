@@ -1,0 +1,19 @@
+<div class="header-cell-template-wrap">
+  <!-- [ngClass]="{ 'cursor-pointer': column.sortable }" -->
+  <div (click)="column?.sortable ? sortColumn(index) : ''">
+    <span class="header-cell-wrapper user-select-none">
+      {{ column.name }}
+      <!-- | translate -->
+    </span>
+    <ng-container *ngIf="column?.sortable">
+      <span
+        class="pe-7s-angle-up font-size-xxl sort-icon"
+        *ngIf="column?.sortOrder == 'asc'"
+      ></span>
+      <span
+        class="pe-7s-angle-down font-size-xxl sort-icon"
+        *ngIf="column?.sortOrder == 'desc'"
+      ></span>
+    </ng-container>
+  </div>
+</div>

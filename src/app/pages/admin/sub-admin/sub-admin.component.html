@@ -1,0 +1,139 @@
+<div class="page-header p-t-0 m-t-0 minus-m-b-25">
+</div>
+<ng-container *ngIf="subAdminTableJSON">
+  <app-table (onRowClick)="showAccounts($event.data)" [Config]="subAdminTableJSON" [Data]="subAdminList"
+    (header_addClick)="openModal(addForm, 'add', '')" (header_closeClick)="close.emit()" [TotalItems]="totalData"
+    [PageSize]="PageSize" (sortTableColumn)="sortTable($event)" (header_searchClick)="search($event)"
+    (pageIndex)="indexChanged($event)" [loading]="loading">
+  </app-table>
+</ng-container>
+
+<ng-template #addForm>
+  <form nz-form nzLayout="vertical" id="addSubAdminForm" [formGroup]="subAdminForm" (keydown.enter)="createSubAdmin()"
+    autocomplete="off">
+    <nz-form-item>
+      <nz-form-label>Sub Admin Name</nz-form-label>
+      <nz-form-control nzErrorTip="Enter a valid sub admin name">
+        <input #username nz-input trim="blur" formControlName="username" maxlength="80" #subAdminName
+          placeholder="Enter sub admin name" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item *ngIf="mode == 'edit'">
+      <nz-form-label nzFor="newPassword" class="text-black">Change Password
+      </nz-form-label>
+      <nz-form-control [nzErrorTip]="newPasswordRef">
+        <nz-input-group [nzPrefix]="prefixLock">
+          <input id="myinputbox" type="password" nz-input formControlName="password"
+            placeholder="Enter changed password" autofocus name="adminPwd" autocomplete="new-password" #adminPwd />
+        </nz-input-group>
+        <ng-template #newPasswordRef>
+          Enter a valid Password
+          <i class="fa fa-info-circle float-right pt-1" nzPopoverPlacement="bottom" nz-popover nzType="primary"
+            nzPopoverTitle="Password Criteria" [nzPopoverContent]="popoverContent"></i>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzFor="confirmPassword" class="text-black">Re-enter new password
+      </nz-form-label>
+      <nz-form-control [nzErrorTip]="matchPasswordErr ? 'Passwords must match' : 'Enter a valid Confirmed Password'">
+        <nz-input-group [nzPrefix]="prefixLock">
+          <input #Pwd id="myinputbox" type="password" nz-input formControlName="confirmPassword"
+            (input)="matchPassword()"
+            [placeholder]="mode == 'add' ? 'Re-enter new password' : 'Re-enter changed password'">
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item *ngIf="mode == 'add'">
+      <nz-form-label>Sub Admin Email</nz-form-label>
+      <nz-form-control nzErrorTip="Enter a valid sub admin email">
+        <input nz-input trim="blur" formControlName="email" maxlength="80" #adminEmail placeholder="Enter email address"
+          autocomplete="new-email" name="sub-admin email" #subAdminEmail />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item *ngIf="mode == 'add'">
+      <nz-form-label nzFor="newPassword" class="text-black">Password
+      </nz-form-label>
+      <nz-form-control [nzErrorTip]="newPasswordRef">
+        <nz-input-group [nzPrefix]="prefixLock">
+          <input id="myinputbox" type="password" nz-input formControlName="password" placeholder="Enter new password"
+            autofocus autocomplete="new-password" name="sub-admin pwd" #subAdminPwd />
+        </nz-input-group>
+        <ng-template #newPasswordRef>
+          Password is not valid
+          <i class="fa fa-info-circle float-right pt-1" nzPopoverPlacement="bottom" nz-popover nzType="primary"
+            nzPopoverTitle="Password Criteria" [nzPopoverContent]="popoverContent"></i>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</ng-template>
+
+<ng-template #permission>
+  <nz-table #fixedTable [nzData]="subAdminList" id="permissionTab" [nzShowPagination]="false">
+    <thead>
+      <tr class="header_row">
+        <th>ID#</th>
+        <th>Name</th>
+        <th style="text-align: center;">Permission</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let row of subAdminList; let ri = index">
+        <tr *ngIf="permissionToBeUpdateRow.id != row.id">
+          <td><span class="truncate">{{ri + 1}}</span></td>
+          <td><span class="truncate">{{row.username}}</span></td>
+          <td style="text-align: center;">
+            <nz-switch nzSize="small"
+              [ngModel]="permissionToBeUpdateRow?.permissions?.viewAccounts ? permissionToBeUpdateRow.permissions.viewAccounts.indexOf(row.id) > -1 : false"
+              (ngModelChange)="fnSwitch($event,row)"></nz-switch>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </nz-table>
+</ng-template>
+
+<ng-template #prefixLock><i nz-icon nzType="lock"></i></ng-template>
+
+<ng-template #popoverContent>
+  <ul class="p-l-20">
+    <li>Alpahnumeric and at least 8 characters long <br /></li>
+    <li>At least one uppercase letter <br /></li>
+    <li>
+      At least one of these characters ( @ / # / $ / % / ^ / & / + / = )<br />
+    </li>
+    <li>Must not contain spaces</li>
+  </ul>
+</ng-template>
+
+<ng-template #actionTemplate let-column="column" let-row="row" let-rowIndex="rowIndex" let-columnIndex="columnIndex">
+  <button type="button" nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="actionMenu" nzPlacement="bottomRight"
+    style="cursor: pointer">
+    <i nz-icon nzType="ellipsis"></i>
+  </button>
+  <nz-dropdown-menu #actionMenu="nzDropdownMenu">
+    <ul nz-menu class="wi-action-menu">
+      <!-- <li nz-menu-item>
+        <a class="dropdown-item" (click)="showAccounts(row)">Users</a>
+      </li> -->
+      <li nz-menu-item>
+        <a class="dropdown-item" (click)="showPermissionModal(permission,row)">Permissions</a>
+      </li>
+      <li nz-menu-item>
+        <a class="dropdown-item" (click)="openModal(addForm, 'edit', row)">Edit</a>
+      </li>
+      <li nz-menu-item>
+        <a class="dropdown-item" (click)="showDeleteConfirm(row.id)">Delete</a>
+      </li>
+    </ul>
+  </nz-dropdown-menu>
+</ng-template>
+
+<ng-template #statusTemplate let-column="column" let-row="row" let-rowIndex="rowIndex" let-columnIndex="columnIndex">
+  <!-- <nz-tag *ngIf="row[column.property] == 0" [nzColor]="'#E23E31'">Inactive</nz-tag>
+  <nz-tag *ngIf="row[column.property] == 1" [nzColor]="'#4AAC4E'">Active</nz-tag> -->
+  <nz-switch nzSize="small" [ngModel]="row[column.property]"
+    (ngModelChange)="statusChanged($event,row,column.property)">
+  </nz-switch>
+</ng-template>

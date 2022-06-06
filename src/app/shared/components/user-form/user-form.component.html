@@ -1,0 +1,268 @@
+<div>
+    <h2>{{ title }}</h2>
+    <form nz-form nzLayout="vertical" id="addUserForm" [formGroup]="accountForm" (ngSubmit)="onSubmit()"
+        *ngIf="oldForm">
+        <div nz-row style="margin-bottom: 0.50rem;">
+            <div nz-col nzSpan="24">
+                <h3>End User Details</h3>
+            </div>
+        </div>
+        <div nz-row [nzGutter]="32">
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label>First Name</nz-form-label>
+                    <nz-form-control nzErrorTip="Enter a valid first name">
+                        <input nz-input trim="blur" formControlName="firstname" maxlength="80" #firstName
+                            placeholder="Enter First Name" tabindex="1" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Company</nz-form-label>
+                    <nz-form-control nzErrorTip="Enter a valid company name">
+                        <input nz-input trim="blur" formControlName="companyname" maxlength="80" #companyName
+                            placeholder="Enter Company Name" tabindex="3" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>State</nz-form-label>
+                    <nz-form-control nzErrorTip="Enter a valid state">
+                        <input nz-input trim="blur" formControlName="enduser_state" maxlength="80" #enduserstate
+                            placeholder="Enter State" tabindex="5" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Email</nz-form-label>
+                    <nz-form-control nzErrorTip="Enter a valid email">
+                        <input nz-input trim="blur" formControlName="enduser_email" maxlength="80" #email
+                            placeholder="Enter Email Address" tabindex="7" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Country</nz-form-label>
+                    <nz-form-control nzErrorTip="Enter a valid country">
+                        <nz-select formControlName="country" nzPlaceHolder="Select Country" nzShowSearch tabindex="9">
+                            <nz-option *ngFor="let country of countryList" [nzValue]="country" [nzLabel]="country">
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label>Last Name</nz-form-label>
+                    <nz-form-control nzErrorTip="Enter a valid last name">
+                        <input nz-input trim="blur" formControlName="lastname" maxlength="80" #lastName
+                            placeholder="Enter Last Name" tabindex="2" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Street</nz-form-label>
+                    <nz-form-control nzErrorTip="Enter a valid street">
+                        <input nz-input trim="blur" formControlName="enduser_street" maxlength="80" #enduserstreet
+                            placeholder="Enter Street" tabindex="4" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Postcode</nz-form-label>
+                    <nz-form-control nzErrorTip="Enter a valid postcode">
+                        <input nz-input trim="blur" formControlName="postcode" maxlength="80" #postcode
+                            placeholder="Enter Postcode" tabindex="6" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Classification</nz-form-label>
+                    <nz-form-control nzErrorTip="Enter a valid Classification">
+                        <input nz-input trim="blur" formControlName="enduser_classification" maxlength="80"
+                            #enduserclassification placeholder="Enter Classification" tabindex="8" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Package</nz-form-label>
+                    <nz-form-control nzErrorTip="Enter a valid package">
+                        <nz-select formControlName="packageid" nzPlaceHolder="Select Package" tabindex="10"
+                            (ngModelChange)="handleCredit($event)">
+                            <nz-option *ngFor="let pack of packageList" [nzValue]="pack.id" [nzLabel]="pack.label">
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row style="margin-bottom: 0.50rem;">
+            <div nz-col nzSpan="24">
+                <h3>Reseller Details</h3>
+            </div>
+        </div>
+        <div nz-row [nzGutter]="32">
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label>First Name</nz-form-label>
+                    <nz-form-control nzErrorTip="Enter a valid first name">
+                        <input nz-input trim="blur" formControlName="reseller_firstname" maxlength="80"
+                            #resellerfirstname placeholder="Enter First Name" tabindex="11" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Company</nz-form-label>
+                    <nz-form-control nzErrorTip="Enter a valid Company">
+                        <input nz-input trim="blur" formControlName="reseller_company" maxlength="80" #resellercompany
+                            placeholder="Enter Company Name" tabindex="13" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>State</nz-form-label>
+                    <nz-form-control nzErrorTip="Enter a valid State">
+                        <input nz-input trim="blur" formControlName="reseller_state" maxlength="80" #resellerstate
+                            placeholder="Enter State" tabindex="15" />
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label>Last Name</nz-form-label>
+                    <nz-form-control nzErrorTip="Enter a valid last name">
+                        <input nz-input trim="blur" formControlName="reseller_lastname" maxlength="80" #resellerlastname
+                            placeholder="Enter Last Name" tabindex="12" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Street</nz-form-label>
+                    <nz-form-control nzErrorTip="Enter a valid Street">
+                        <input nz-input trim="blur" formControlName="reseller_street" maxlength="80" #resellerstreet
+                            placeholder="Enter Street" tabindex="14" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Postcode</nz-form-label>
+                    <nz-form-control nzErrorTip="Enter a valid Postcode">
+                        <input nz-input trim="blur" formControlName="reseller_code" maxlength="80" #resellercode
+                            placeholder="Enter Postcode" tabindex="16" />
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+        <div nz-row [nzGutter]="32">
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label>Email</nz-form-label>
+                    <nz-form-control nzErrorTip="Enter a valid Email">
+                        <input nz-input trim="blur" formControlName="reseller_email" maxlength="80" #reselleremail
+                            placeholder="Enter Email Address" tabindex="17" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item *ngIf="state !== 'edit'">
+                    <nz-form-label>PO File</nz-form-label>
+                    <nz-form-control nzErrorTip="Select a valid PO file">
+                        <div class="ant-upload ant-upload-drag custom-file-uploader drag-file-uploader"
+                            (click)="openFileBrowser('POSelector')">
+                            <input type="file" style="display: none;" (change)="handleChange($event)" id="POSelector">
+                            <p class="ant-upload-drag-icon font-size-30 m-b-10 lh-1">
+                                <i nz-icon nzType="inbox"></i>
+                            </p>
+                            <p class="ant-upload-text m-b-0">Click to this area to upload</p>
+                            <p class="ant-upload-hint m-b-0" *ngIf="!accountForm.get('file').value">
+                                Support for a single PDF file
+                            </p>
+                            <p class="ant-upload-hint m-b-0 text-truncate w-100 p-l-10 p-r-10 text-center"
+                                *ngIf="accountForm.get('file').value && accountForm.get('file').value['name']"
+                                (click)="$event.stopPropagation();">
+                                {{accountForm.get('file').value['name']}}
+                                <span
+                                    (click)="$event.stopPropagation();downloadDoc(accountForm.get('file').value['id'])"
+                                    *ngIf="state == 'edit'">
+                                    <i nz-icon nzType="download" style="font-size: 20px;"></i>
+                                </span>
+                            </p>
+                        </div>
+                        <ng-container *ngIf="accountForm.get('file').dirty && accountForm.get('file').errors">
+                            <div class="w-100 validationColor float-left">
+                                Choose a valid PO File
+                            </div>
+                        </ng-container>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+    </form>
+    <form nz-form nzLayout="vertical" id="addAccountForm" [formGroup]="newForm" (ngSubmit)="onSubmit()"
+        *ngIf="!oldForm">
+        <div nz-row [nzGutter]="32">
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label>First Name</nz-form-label>
+                    <nz-form-control nzErrorTip="Enter a valid first name">
+                        <input nz-input trim="blur" formControlName="firstname" maxlength="80" #firstName
+                            placeholder="Enter First Name" tabindex="1" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Company</nz-form-label>
+                    <nz-form-control nzErrorTip="Enter a valid company name">
+                        <input nz-input trim="blur" formControlName="companyname" maxlength="80" #companyName
+                            placeholder="Enter Company Name" tabindex="3" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Phone</nz-form-label>
+                    <nz-form-control nzErrorTip="Enter a valid phone number">
+                        <input nz-input trim="blur" formControlName="phone" maxlength="10" #phonenumber
+                            placeholder="Enter Phone Number" tabindex="5" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Email</nz-form-label>
+                    <nz-form-control nzErrorTip="Enter a valid email">
+                        <input nz-input trim="blur" formControlName="enduser_email" maxlength="80" #email
+                            placeholder="Enter Email Address" tabindex="7" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Country</nz-form-label>
+                    <nz-form-control nzErrorTip="Enter a valid country">
+                        <nz-select formControlName="country" nzPlaceHolder="Select Country" nzShowSearch tabindex="9">
+                            <nz-option *ngFor="let country of countryList" [nzValue]="country" [nzLabel]="country">
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label>Last Name</nz-form-label>
+                    <nz-form-control nzErrorTip="Enter a valid last name">
+                        <input nz-input trim="blur" formControlName="lastname" maxlength="80" #lastName
+                            placeholder="Enter Last Name" tabindex="2" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Address</nz-form-label>
+                    <nz-form-control nzErrorTip="Enter a valid address">
+                        <input nz-input trim="blur" formControlName="address" maxlength="80" #enduserstreet
+                            placeholder="Enter Address" tabindex="4" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Postcode</nz-form-label>
+                    <nz-form-control nzErrorTip="Enter a valid postcode">
+                        <input nz-input trim="blur" formControlName="postcode" maxlength="80" #postcode
+                            placeholder="Enter Postcode" tabindex="6" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Package</nz-form-label>
+                    <nz-form-control nzErrorTip="Enter a valid package">
+                        <nz-select formControlName="packageid" nzPlaceHolder="Select Package" tabindex="10"
+                            (ngModelChange)="handleCredit($event)">
+                            <nz-option *ngFor="let pack of packageList" [nzValue]="pack.id" [nzLabel]="pack.label">
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- <div *nzModalFooter>
+    <button nz-button nzType="primary" (click)="onSubmit()">{{btnName}}</button>
+</div> -->

@@ -1,0 +1,24 @@
+<div class="app-header" style="display: flex; justify-content: space-between; align-items: center">
+  <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+    <!--  <i
+      class="trigger"
+      nz-icon
+      [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+    ></i> -->
+  </span>
+  <nz-button-group style="padding: 0 25px">
+    <button nz-button nz-dropdown [nzDropdownMenu]="menu2" nzPlacement="bottomRight">
+      <!-- <i nz-icon nzType="user" nzTheme="outline"></i> -->
+      <span *ngIf="currentUserDetails.firstname !== null">
+        {{currentUserDetails.firstname + ' ' + currentUserDetails.lastname}}
+      </span>
+      <i nz-icon nzType="more" nzTheme="outline"></i>
+    </button>
+  </nz-button-group>
+  <nz-dropdown-menu #menu2="nzDropdownMenu">
+    <ul nz-menu>
+      <li nz-menu-item (click)="profile()">Profile</li>
+      <li nz-menu-item (click)="logout()">Logout</li>
+    </ul>
+  </nz-dropdown-menu>
+</div>

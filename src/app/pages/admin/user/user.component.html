@@ -1,0 +1,51 @@
+<div class="page-header p-t-0 m-t-0 minus-m-b-25">
+</div>
+<ng-container *ngIf="accountTableJSON">
+    <app-table [Config]="accountTableJSON" [Data]="accountList" (header_addClick)="openModal('add', '')"
+        (header_closeClick)="close.emit()" (pageIndex)="indexChanged($event)" [loading]="loading"
+        [TotalItems]="totalData" [PageSize]="PageSize" (sortTableColumn)="sortAccountTable($event)"
+        [sorting]="tabsorting" (header_searchClick)="search($event)">
+    </app-table>
+</ng-container>
+
+<ng-template #actionTemplate let-column="column" let-row="row" let-rowIndex="rowIndex" let-columnIndex="columnIndex">
+    <div style="position: relative" class="text-center">
+
+        <button type="button" nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="actionMenu"
+            nzPlacement="bottomRight" style="cursor: pointer" (click)="$event.stopPropagation()">
+            <i nz-icon nzType="ellipsis"></i>
+        </button>
+
+        <nz-dropdown-menu #actionMenu="nzDropdownMenu">
+            <ul nz-menu class="wi-action-menu">
+                <li nz-menu-item role="menuitem">
+                    <a class="dropdown-item" (click)="accountDetailsModel(row)">View</a>
+                </li>
+                <li nz-menu-item role="menuitem">
+                    <a class="dropdown-item" (click)="openModal('edit', row)">Edit</a>
+                </li>
+                <li nz-menu-item role="menuitem">
+                    <a class="dropdown-item" (click)="openDocumentModal(row)">PO</a>
+                </li>
+                <li nz-menu-item role="menuitem" *ngIf="currentUserDetails.role == superAdminRole">
+                    <a class="dropdown-item" (click)="openDevicesModel(row)">Devices</a>
+                </li>
+                <li nz-menu-item role="menuitem" *ngIf="currentUserDetails.role == superAdminRole">
+                    <a class="dropdown-item" (click)="showDeleteConfirm(row)">Delete</a>
+                </li>
+            </ul>
+        </nz-dropdown-menu>
+    </div>
+</ng-template>
+
+<ng-template #created_by_template let-row="row" let-column="column">
+    <span *ngIf="row[column.property]">{{row[column.property]['firstname']}}</span>
+</ng-template>
+
+<ng-template #statusTemplate let-column="column" let-row="row" let-rowIndex="rowIndex" let-columnIndex="columnIndex">
+    <!-- <nz-tag *ngIf="row[column.property] == false" [nzColor]="'#E23E31'">Inactive</nz-tag>
+    <nz-tag *ngIf="row[column.property] == true" [nzColor]="'#4AAC4E'">Active</nz-tag> -->
+    <nz-switch nzSize="small" [ngModel]="row[column.property]"
+        (ngModelChange)="statusChanged($event,row,column.property)">
+    </nz-switch>
+</ng-template>
